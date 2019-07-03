@@ -1,41 +1,51 @@
 import React from "react"
 
-const PizzaForm = () => {
+export default class PizzaForm extends React.Component{
+
+  state = {
+    topping: "",
+    size: "unkown",
+    veggie: null,
+    id: ""
+  }
+
+componentDidUpdate(prevProps) {
+  if (prevProps.selectedPizza.id !== this.props.selectedPizza.id) {
+    this.setState({id: this.props.selectedPizza.id})
+  }
+}
+
+render(){
   return(
       <div className="form-row">
         <div className="col-5">
-            <input type="text" className="form-control" placeholder="Pizza Topping" value={
-                //Pizza Topping Should Go Here
-                null
-              }/>
+            <input onChange={(e)=>this.setState({topping: e.target.value})}
+            type="text"
+            className="form-control"
+            placeholder="Pizza Topping"
+            value={this.state.topping}/>
         </div>
-        <div className="col">
-          <select value={null} className="form-control">
+        <div className="col" onChange={(e)=>this.setState({size: e.target.value})}>
+          <select value={this.state.size} className="form-control">
+            <option value="unk">Unkown</option>
             <option value="Small">Small</option>
             <option value="Medium">Medium</option>
             <option value="Large">Large</option>
           </select>
         </div>
-        <div className="col">
-          <div className="form-check">
-            <input className="form-check-input" type="radio" value="Vegetarian" checked={null}/>
-            <label className="form-check-label">
-              Vegetarian
-            </label>
+        <div className="col-2" onChange={(e)=>this.setState({veggie: (e.target.value) })}>
+          <select value={this.state.veggie}className="form-control">
+            <option value={false}>Mixed</option>
+            <option value={false}>Vegetarian</option>
+            <option value={true}>Not Vegetarian</option>
+            </select>
           </div>
-          <div className="form-check">
-            <input className="form-check-input" type="radio" value="Not Vegetarian" checked={null}/>
-            <label className="form-check-label">
-              Not Vegetarian
-            </label>
-          </div>
+          <button type="submit" className="btn btn-success" onClick={()=>this.props.editPizza(this.state)}>Submit</button>
         </div>
-        <div className="col">
-          <button type="submit" className="btn btn-success" onClick={console.log}>Submit</button>
-        </div>
-      </div>
+
 
   )
+
 }
 
-export default PizzaForm
+}
